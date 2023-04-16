@@ -1,0 +1,99 @@
+﻿@model MichalNajwerLab3.Models.Pizza
+
+@{
+    ViewData["Title"] = "Szczegóły";
+}
+
+<h1>Szczegóły pizzy</h1>
+<h4>@Model.Name</h4>
+<h4>Numer: @Model.Id</h4>
+<img class="rounded" src="~/images/@Model.Image" style="height: 20rem; width: 35rem"/>
+<br />
+<br />
+
+<h5>Opis pizzy
+    <button type="button" class="btn btn-info" onclick="Edit_Description()">Edytuj</button>
+
+</h5>
+<p id="Description">@Model.Description</p>
+<h5>Cena: @Model.Price zł</h5>
+
+<hr/>
+<a asp-action="AllPizzas">Powrót</a>
+
+
+
+
+
+<div class="bs-example">
+    <div id="myModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edycja opisu</h5>
+                    <button type="button" class="close" data-dismiss="modal" onclick="Cancel_Edit()">&times;</button>
+                </div>
+                <div class="modal-body">
+                   
+                    <input type="text" id="OldDes" name="OldDes" style="min-height:5rem;min-width:25rem; font-size:10px;"><br><br>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Cancel_Edit()">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="Make_change(@Model.Id)">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function Edit_Description()
+    {
+
+        $('#OldDes').val($('#Description').text());
+        $('#myModal').modal('show');
+
+
+      }
+
+
+
+    function Cancel_Edit()
+    {
+        $('#myModal').modal('hide');
+    }
+
+    function Make_change(id)
+    {
+        var des =  $('#OldDes').val();
+        $('#Description').html(des); 
+
+        $('#myModal').modal('hide');
+
+
+        var itemId = id;
+
+
+        $.ajax({
+            type: "PUT",
+            url: "/Cart/EditDes",
+            data: { des: des ,
+                    itemId: itemId
+            },
+            success: function () {
+            },
+            error: function () {
+                alert("Błąd!");
+            }
+        });
+    }
+
+
+
+
+
+
+</script>

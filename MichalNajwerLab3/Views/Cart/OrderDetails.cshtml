@@ -1,0 +1,53 @@
+﻿@model MichalNajwerLab3.Models.Order
+
+
+@{
+    ViewData["Title"] = "Historia";
+}
+
+<h1>Historia Zamówienia:</h1>
+
+<dl>
+    <dt>Id</dt>
+    <dd>@Model.Id</dd>
+    <dt>Data</dt>
+    <dd>@Model.Date</dd>
+    <dt>Telefon</dt>
+    <dd>@Model.Phone</dd>
+    <dt>Miasto</dt>
+    <dd>@Model.City</dd>
+    <dt>Adres</dt>
+    <dd>@Model.Address</dd>
+</dl>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nazwa</th>
+            <th>Cena</th>
+            <th>Ilośc</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderPizzas)
+        {
+             <tr>
+                <td>@item.Pizza.Name</td>
+
+                @{
+                    var Suma = item.Pizza.Price * item.Count;
+                }
+                <td> @Suma </td>
+                <td>@item.Count </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
